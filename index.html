@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Banco Rodrigues - El banco de pura sepa</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Estilos generales */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background-color: #f5f7fa;
+            color: #333;
+            line-height: 1.6;
+        }
+        
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+        
+        /* Barra superior */
+        .top-bar {
+            background: linear-gradient(to right, #1a3a5f, #2c5282);
+            color: white;
+            padding: 8px 0;
+            font-size: 14px;
+        }
+        
+        .top-bar-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .exchange-rates {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .rate {
+            display: flex;
+            align-items: center;
+        }
+        
+        .rate-value {
+            margin-left: 5px;
+            font-weight: bold;
+        }
+        
+        .top-links {
+            display: flex;
+            gap: 20px;
+        }
+        
+        .top-links a {
+            color: white;
+            text-decoration: none;
+            transition: opacity 0.3s;
+            position: relative;
+        }
+        
+        .top-links a:hover {
+            opacity: 0.8;
+        }
+        
+        /* Header principal */
+        header {
+            background-color: white;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            padding: 15px 0;
+            position: relative;
+        }
+        
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .logo h1 {
+            font-size: 28px;
+            color: #1a3a5f;
+            font-weight: 700;
+        }
+        
+        .logo span {
+            color: #e63946;
+        }
+        
+        .slogan {
+            font-style: italic;
+            color: #2c5282;
+            margin-top: 5px;
+        }
+        
+        .access-button {
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .access-button:hover {
+            background-color: #c1121f;
+        }
+        
+        /* Botón de menú móvil */
+        .mobile-menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: #1a3a5f;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+        }
+        
+        /* Navegación principal con menús desplegables */
+        .main-nav {
+            background: linear-gradient(to right, #1a3a5f, #2c5282);
+            padding: 0;
+        }
+        
+        .nav-menu {
+            display: flex;
+            list-style: none;
+            position: relative;
+        }
+        
+        .nav-menu li {
+            position: relative;
+        }
+        
+        .nav-menu > li > a {
+            color: white;
+            text-decoration: none;
+            padding: 15px 20px;
+            display: block;
+            font-weight: 500;
+            transition: background-color 0.3s;
+            position: relative;
+        }
+        
+        .nav-menu > li > a:hover {
+            background-color: rgba(255,255,255,0.1);
+        }
+        
+        /* Submenús desplegables */
+        .submenu {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            border-radius: 0 0 5px 5px;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(-10px);
+            transition: all 0.3s ease;
+            z-index: 1000;
+        }
+        
+        .nav-menu li:hover .submenu {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .submenu li {
+            width: 100%;
+        }
+        
+        .submenu a {
+            color: #333;
+            padding: 12px 20px;
+            display: block;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.3s;
+        }
+        
+        .submenu a:hover {
+            background-color: #f5f7fa;
+            color: #1a3a5f;
+        }
+        
+        /* Indicador de submenú (flecha) - MEJORADO */
+        .has-submenu > a::after {
+            content: "\f107";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-left: 8px;
+            transition: transform 0.3s;
+        }
+        
+        .has-submenu:hover > a::after {
+            transform: rotate(180deg);
+        }
+        
+        /* Menús desplegables en barra superior - NUEVO */
+        .top-links-dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        
+        .top-links-dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: white;
+            min-width: 200px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            z-index: 1000;
+            border-radius: 5px;
+            top: 100%;
+            left: 0;
+            margin-top: 5px;
+        }
+        
+        .top-links-dropdown:hover .top-links-dropdown-content {
+            display: block;
+        }
+        
+        .top-links-dropdown-content a {
+            color: #333;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            border-bottom: 1px solid #f0f0f0;
+            transition: background-color 0.3s;
+        }
+        
+        .top-links-dropdown-content a:hover {
+            background-color: #f5f7fa;
+            color: #1a3a5f;
+        }
+        
+        /* Flecha en enlaces de barra superior - NUEVO */
+        .top-links-dropdown > a::after {
+            content: "\f107";
+            font-family: "Font Awesome 5 Free";
+            font-weight: 900;
+            margin-left: 5px;
+            font-size: 12px;
+            transition: transform 0.3s;
+        }
+        
+        .top-links-dropdown:hover > a::after {
+            transform: rotate(180deg);
+        }
+        
+        /* Carrusel de imágenes - MEJORADO para funcionar sin JS */
+        .carousel {
+            position: relative;
+            height: 500px;
+            overflow: hidden;
+            border-radius: 8px;
+            margin: 30px 0;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .carousel-slides {
+            display: flex;
+            width: 300%;
+            height: 100%;
+            transition: transform 0.8s ease-in-out;
+            animation: slide 15s infinite;
+        }
+        
+        .carousel-slide {
+            width: 33.333%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            position: relative;
+        }
+        
+        .carousel-slide::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.4);
+        }
+        
+        .slide-content {
+            position: relative;
+            z-index: 2;
+            max-width: 600px;
+            padding: 20px;
+        }
+        
+        .slide-content h2 {
+            font-size: 42px;
+            margin-bottom: 20px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+        
+        .slide-content p {
+            font-size: 20px;
+            margin-bottom: 30px;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.5);
+        }
+        
+        .carousel-btn {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            background: rgba(255,255,255,0.8);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 10;
+            transition: background 0.3s, transform 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            pointer-events: none;
+        }
+        
+        .carousel:hover .carousel-btn {
+            opacity: 1;
+            pointer-events: all;
+        }
+        
+        .carousel-btn:hover {
+            background: rgba(255,255,255,0.95);
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .prev {
+            left: 20px;
+        }
+        
+        .next {
+            right: 20px;
+        }
+        
+        .carousel-indicators {
+            position: absolute;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 15px;
+            z-index: 10;
+        }
+        
+        .indicator {
+            width: 15px;
+            height: 15px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.5);
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        
+        .indicator.active {
+            background: white;
+            transform: scale(1.2);
+        }
+        
+        .indicator:hover {
+            transform: scale(1.2);
+        }
+        
+        /* Animación del carrusel */
+        @keyframes slide {
+            0%, 28% {
+                transform: translateX(0);
+            }
+            33%, 61% {
+                transform: translateX(-33.333%);
+            }
+            66%, 94% {
+                transform: translateX(-66.666%);
+            }
+            100% {
+                transform: translateX(0);
+            }
+        }
+        
+        /* Contenido principal - MEJORADO con efectos hover */
+        .main-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 30px;
+            margin: 30px 0;
+        }
+        
+        .services-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .services-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .section-title {
+            color: #1a3a5f;
+            border-bottom: 2px solid #e63946;
+            padding-bottom: 10px;
+            margin-bottom: 20px;
+            font-size: 22px;
+            transition: color 0.3s;
+        }
+        
+        .services-section:hover .section-title {
+            color: #e63946;
+        }
+        
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 20px;
+        }
+        
+        .service-card {
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            padding: 20px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(230, 57, 70, 0.1), transparent);
+            transition: left 0.5s;
+        }
+        
+        .service-card:hover::before {
+            left: 100%;
+        }
+        
+        .service-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+        }
+        
+        .service-icon {
+            font-size: 24px;
+            color: #e63946;
+            margin-bottom: 10px;
+            transition: transform 0.3s;
+        }
+        
+        .service-card:hover .service-icon {
+            transform: scale(1.2);
+        }
+        
+        .service-card h3 {
+            color: #1a3a5f;
+            margin-bottom: 10px;
+            transition: color 0.3s;
+        }
+        
+        .service-card:hover h3 {
+            color: #e63946;
+        }
+        
+        .service-card p {
+            color: #666;
+            font-size: 14px;
+        }
+        
+        .offices-section {
+            background-color: white;
+            border-radius: 8px;
+            padding: 25px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .offices-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+        }
+        
+        .offices-list {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+        
+        .office-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 8px;
+            transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+        
+        .office-item:hover {
+            background-color: #edf2f7;
+            transform: translateX(5px);
+            box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+        }
+        
+        .office-icon {
+            font-size: 20px;
+            color: #e63946;
+            transition: transform 0.3s;
+        }
+        
+        .office-item:hover .office-icon {
+            transform: scale(1.2);
+        }
+        
+        .app-section {
+            background: linear-gradient(to right, #1a3a5f, #2c5282);
+            color: white;
+            border-radius: 8px;
+            padding: 25px;
+            margin-top: 30px;
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+        
+        .app-section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+        }
+        
+        .app-section h2 {
+            margin-bottom: 15px;
+        }
+        
+        .app-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .app-button {
+            background-color: white;
+            color: #1a3a5f;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: transform 0.3s, box-shadow 0.3s, background-color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .app-button:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 10px rgba(0,0,0,0.2);
+            background-color: #f0f0f0;
+        }
+        
+        /* Footer - MEJORADO con efectos hover */
+        footer {
+            background-color: #1a202c;
+            color: white;
+            padding: 40px 0 20px;
+            margin-top: 50px;
+        }
+        
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 30px;
+        }
+        
+        .footer-column h3 {
+            color: #e63946;
+            margin-bottom: 20px;
+            font-size: 18px;
+            transition: color 0.3s;
+        }
+        
+        .footer-column:hover h3 {
+            color: white;
+        }
+        
+        .footer-links {
+            list-style: none;
+        }
+        
+        .footer-links li {
+            margin-bottom: 10px;
+            position: relative;
+            padding-left: 15px;
+            transition: transform 0.3s;
+        }
+        
+        .footer-links li:hover {
+            transform: translateX(5px);
+        }
+        
+        .footer-links li::before {
+            content: '›';
+            position: absolute;
+            left: 0;
+            color: #e63946;
+            transition: color 0.3s;
+        }
+        
+        .footer-links li:hover::before {
+            color: white;
+        }
+        
+        .footer-links a {
+            color: #cbd5e0;
+            text-decoration: none;
+            transition: color 0.3s, padding-left 0.3s;
+        }
+        
+        .footer-links a:hover {
+            color: white;
+            padding-left: 5px;
+        }
+        
+        .copyright {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #2d3748;
+            color: #a0aec0;
+            font-size: 14px;
+        }
+        
+        /* Responsive */
+        @media (max-width: 992px) {
+            .main-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .services-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .carousel {
+                height: 350px;
+            }
+            
+            .slide-content h2 {
+                font-size: 32px;
+            }
+            
+            .slide-content p {
+                font-size: 18px;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .top-bar-content {
+                flex-direction: column;
+                gap: 10px;
+            }
+            
+            .header-content {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+            
+            .nav-menu {
+                flex-direction: column;
+            }
+            
+            .nav-menu > li {
+                width: 100%;
+            }
+            
+            .submenu {
+                position: static;
+                opacity: 1;
+                visibility: visible;
+                transform: none;
+                box-shadow: none;
+                background-color: rgba(255,255,255,0.1);
+                display: none;
+            }
+            
+            .nav-menu li:hover .submenu {
+                display: block;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+            
+            .carousel {
+                height: 300px;
+            }
+            
+            .slide-content h2 {
+                font-size: 24px;
+            }
+            
+            .slide-content p {
+                font-size: 16px;
+            }
+            
+            /* Mostrar botón de menú móvil */
+            .mobile-menu-toggle {
+                display: block;
+                position: absolute;
+                top: 20px;
+                right: 15px;
+            }
+            
+            /* Ocultar navegación principal en móviles */
+            .main-nav {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Barra superior -->
+    <div class="top-bar">
+        <div class="container top-bar-content">
+            <div class="exchange-rates">
+                <div class="rate">
+                    USD Compra: <span class="rate-value">60.60</span>
+                </div>
+                <div class="rate">
+                    USD Venta: <span class="rate-value">62.60</span>
+                </div>
+            </div>
+            <div class="top-links">
+                <div class="top-links-dropdown">
+                    <a href="#">Canales Banco Rodriguéz</a>
+                    <div class="top-links-dropdown-content">
+                        <a href="#">Oficinas Comerciales</a>
+                        <a href="#">Cajeros Automáticos</a>
+                        <a href="#">Centro de Contacto</a>
+                        <a href="#">Banca Digital</a>
+                    </div>
+                </div>
+                <div class="top-links-dropdown">
+                    <a href="#">Sobre Nosotros</a>
+                    <div class="top-links-dropdown-content">
+                        <a href="#">Nuestra Historia</a>
+                        <a href="#">Responsabilidad Social</a>
+                        <a href="#">Trabaja con Nosotros</a>
+                        <a href="#">Noticias</a>
+                    </div>
+                </div>
+                <a href="#">Mapa</a>
+                <a href="#">Calculadoras</a>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Header principal -->
+    <header>
+        <div class="container header-content">
+            <div class="logo">
+                <h1>Banco <span>Rodriguéz</span></h1>
+                <div class="slogan">El banco que te acompaña en cada paso</div>
+            </div>
+            <button class="access-button">Acceder a TuBanco</button>
+        </div>
+    </header>
+    
+    <!-- Navegación principal con menús desplegables -->
+    <nav class="main-nav">
+        <div class="container">
+            <ul class="nav-menu">
+                <li class="has-submenu">
+                    <a href="#">Personal</a>
+                    <ul class="submenu">
+                        <li><a href="#">Cuentas de Ahorro</a></li>
+                        <li><a href="#">Tarjetas de Crédito</a></li>
+                        <li><a href="#">Préstamos Personales</a></li>
+                        <li><a href="#">Seguros</a></li>
+                        <li><a href="#">Inversiones</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">Preferente</a>
+                    <ul class="submenu">
+                        <li><a href="#">Banca Privada</a></li>
+                        <li><a href="#">Asesoría Financiera</a></li>
+                        <li><a href="#">Tarjetas Platinum</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">PYME</a>
+                    <ul class="submenu">
+                        <li><a href="#">Cuentas Empresariales</a></li>
+                        <li><a href="#">Financiamiento</a></li>
+                        <li><a href="#">Soluciones de Pago</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">Empresarial</a>
+                    <ul class="submenu">
+                        <li><a href="#">Banca Corporativa</a></li>
+                        <li><a href="#">Financiamiento</a></li>
+                        <li><a href="#">Comercio Exterior</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">Gubernamental</a>
+                    <ul class="submenu">
+                        <li><a href="#">Servicios al Gobierno</a></li>
+                        <li><a href="#">Proyectos Públicos</a></li>
+                    </ul>
+                </li>
+                <li class="has-submenu">
+                    <a href="#">Internacional</a>
+                    <ul class="submenu">
+                        <li><a href="#">Transferencias Internacionales</a></li>
+                        <li><a href="#">Oficinas en el Exterior</a></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    
+    <!-- Carrusel de imágenes (sin JavaScript) -->
+    <div class="container">
+        <div class="carousel">
+            <div class="carousel-slides">
+                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1554224155-6726b3ff858f?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80');">
+                    <div class="slide-content">
+                        <h2>Banca Digital Avanzada</h2>
+                        <p>Gestiona tus finanzas desde cualquier lugar con nuestra plataforma digital segura y fácil de usar.</p>
+                        <button class="app-button">Conoce Más</button>
+                    </div>
+                </div>
+                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1563013544-824ae1b704d3?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80');">
+                    <div class="slide-content">
+                        <h2>Préstamos Hipotecarios</h2>
+                        <p>Realiza el sueño de tu casa propia con nuestras atractivas tasas y condiciones flexibles.</p>
+                        <button class="app-button">Solicitar Información</button>
+                    </div>
+                </div>
+                <div class="carousel-slide" style="background-image: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?ixlib=rb-1.2.1&auto=format&fit=crop&w=1200&q=80');">
+                    <div class="slide-content">
+                        <h2>Inversiones Inteligentes</h2>
+                        <p>Haz crecer tu dinero con nuestras opciones de inversión diseñadas para tus objetivos.</p>
+                        <button class="app-button">Ver Opciones</button>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-indicators">
+                <div class="indicator active"></div>
+                <div class="indicator"></div>
+                <div class="indicator"></div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Contenido principal -->
+    <div class="container main-content">
+        <div class="services-section">
+            <h2 class="section-title">Nuestros Servicios</h2>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-piggy-bank"></i></div>
+                    <h3>Ahorro e Inversión</h3>
+                    <p>Diversas opciones para hacer crecer tu dinero de forma segura y con rendimientos atractivos.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-credit-card"></i></div>
+                    <h3>Tarjetas de Crédito</h3>
+                    <p>Beneficios exclusivos, programas de recompensas y límites adaptados a tus necesidades.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-home"></i></div>
+                    <h3>Préstamos Hipotecarios</h3>
+                    <p>Realiza el sueño de tu casa propia con tasas competitivas y plazos flexibles.</p>
+                </div>
+                <div class="service-card">
+                    <div class="service-icon"><i class="fas fa-user-shield"></i></div>
+                    <h3>Seguros</h3>
+                    <p>Protege lo que más importa con nuestras pólizas de vida, hogar, auto y más.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="offices-section">
+            <h2 class="section-title">Sucursales</h2>
+            <div class="offices-list">
+                <div class="office-item">
+                    <div class="office-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h3>Sucursal Principal</h3>
+                        <p>Av. Principal #123, Ciudad</p>
+                    </div>
+                </div>
+                <div class="office-item">
+                    <div class="office-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h3>Centro Comercial Norte</h3>
+                        <p>Centro Comercial Norte, Local 45</p>
+                    </div>
+                </div>
+                <div class="office-item">
+                    <div class="office-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <h3>Plaza del Sol</h3>
+                        <p>Plaza del Sol, Nivel 2</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Productos</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Cuentas de Ahorro</a></li>
+                        <li><a href="#">Tarjetas de Crédito</a></li>
+                        <li><a href="#">Préstamos Personales</a></li>
+                        <li><a href="#">Hipotecas</a></li>
+                        <li><a href="#">Inversiones</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Servicios</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Banca en Línea</a></li>
+                        <li><a href="#">Banca Móvil</a></li>
+                        <li><a href="#">Transferencias</a></li>
+                        <li><a href="#">Pago de Servicios</a></li>
+                        <li><a href="#">Seguros</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Ayuda</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Preguntas Frecuentes</a></li>
+                        <li><a href="#">Contáctanos</a></li>
+                        <li><a href="#">Sucursales y Cajeros</a></li>
+                        <li><a href="#">Tasas y Tarifas</a></li>
+                        <li><a href="#">Atención al Cliente</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Sobre Nosotros</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Nuestra Historia</a></li>
+                        <li><a href="#">Responsabilidad Social</a></li>
+                        <li><a href="#">Trabaja con Nosotros</a></li>
+                        <li><a href="#">Noticias</a></li>
+                        <li><a href="#">Transparencia</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Banco Rodrigues. Todos los derechos reservados.</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>
